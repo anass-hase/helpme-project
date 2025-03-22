@@ -1,0 +1,286 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Inscription & Authentification</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+  <style>
+    /* Reset */
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      transition: background 0.3s, color 0.3s;
+    }
+
+    body {
+      font-family: 'Arial', sans-serif;
+      background: var(--bg-color);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      padding: 10px;
+    }
+
+    :root {
+      --bg-color: #f2f2f2;
+      --text-color: #333;
+      --card-bg: #fff;
+      --primary: #007BFF;
+      --border-color: #ccc;
+      --social-bg: #eee;
+    }
+
+    [data-theme="dark"] {
+      --bg-color: #1a1a1a;
+      --text-color: #fff;
+      --card-bg: #2d2d2d;
+      --border-color: #444;
+      --social-bg: #333;
+    }
+
+    /* Container with fade-in animation */
+    .auth-container {
+      width: 100%;
+      max-width: 400px;
+      background: var(--card-bg);
+      border-radius: 10px;
+      box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+      overflow: hidden;
+      animation: fadeIn 1s ease-in;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(-20px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    /* Tab header */
+    .tab-header {
+      display: flex;
+      background: var(--social-bg);
+    }
+
+    .tab-header button {
+      flex: 1;
+      padding: 15px;
+      background: none;
+      border: none;
+      font-size: 16px;
+      cursor: pointer;
+      transition: background 0.3s;
+      color: var(--text-color);
+    }
+
+    .tab-header button.active {
+      background: var(--card-bg);
+      font-weight: bold;
+    }
+
+    /* Form container */
+    .form-container {
+      padding: 20px;
+      position: relative;
+    }
+
+    form {
+      display: none;
+      animation: slideIn 0.5s ease-in;
+    }
+
+    form.active {
+      display: block;
+    }
+
+    @keyframes slideIn {
+      from { opacity: 0; transform: translateX(20px); }
+      to { opacity: 1; transform: translateX(0); }
+    }
+
+    /* Form elements */
+    label {
+      display: block;
+      margin-bottom: 5px;
+      font-size: 14px;
+      color: var(--text-color);
+    }
+
+    input[type="text"],
+    input[type="email"],
+    input[type="password"] {
+      width: 100%;
+      padding: 10px;
+      margin-bottom: 15px;
+      border: 1px solid var(--border-color);
+      border-radius: 5px;
+      background: var(--card-bg);
+      color: var(--text-color);
+    }
+
+    input:focus {
+      border-color: var(--primary);
+      outline: none;
+    }
+
+    button[type="submit"] {
+      width: 100%;
+      padding: 10px;
+      border: none;
+      border-radius: 5px;
+      background: var(--primary);
+      color: #fff;
+      font-size: 16px;
+      cursor: pointer;
+    }
+
+    button[type="submit"]:hover {
+      filter: brightness(0.9);
+    }
+
+    .social-login {
+      margin-top: 15px;
+      text-align: center;
+    }
+
+    .social-login p {
+      margin-bottom: 10px;
+      color: var(--text-color);
+    }
+
+    .social-login button {
+      padding: 10px 15px;
+      margin: 5px;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+      color: #fff;
+    }
+
+    .social-login button.facebook { background: #3b5998; }
+    .social-login button.google { background: #db4437; }
+
+    /* Dark mode toggle */
+    .theme-toggle {
+      position: fixed;
+      top: 20px;
+      right: 20px;
+      background: var(--card-bg);
+      border: none;
+      padding: 10px;
+      border-radius: 50%;
+      cursor: pointer;
+      box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+      color: var(--text-color);
+    }
+
+    @media (max-width: 480px) {
+      .auth-container { max-width: 95%; }
+      .tab-header button { font-size: 14px; padding: 10px; }
+      .form-container { padding: 15px; }
+    }
+  </style>
+</head>
+<body>
+  <button class="theme-toggle" id="themeToggle">
+    <i class="fas fa-moon"></i>
+  </button>
+
+  <div class="auth-container">
+    <div class="tab-header">
+      <button id="loginTab" class="active">Login</button>
+      <button id="signupTab">Sign Up</button>
+    </div>
+    <div class="form-container">
+      <!-- Login Form -->
+      <form id="loginForm" class="active">
+        <div>
+          <label for="login-email">Email</label>
+          <input type="email" id="login-email" placeholder="Enter your email" required />
+        </div>
+        <div>
+          <label for="login-password">Password</label>
+          <input type="password" id="login-password" placeholder="Enter your password" required />
+        </div>
+        <button type="submit">Login</button>
+        <p style="text-align:center; margin-top:10px;">
+          <a href="#" style="text-decoration:none; color: var(--primary);">Forgot your password?</a>
+        </p>
+        <div class="social-login">
+          <p>Or login with:</p>
+          <button type="button" class="facebook">Facebook</button>
+          <button type="button" class="google">Google</button>
+        </div>
+      </form>
+
+      <!-- Sign Up Form -->
+      <form id="signupForm">
+        <div>
+          <label for="signup-name">Name</label>
+          <input type="text" id="signup-name" placeholder="Enter your name" required />
+        </div>
+        <div>
+          <label for="signup-email">Email</label>
+          <input type="email" id="signup-email" placeholder="Enter your email" required />
+        </div>
+        <div>
+          <label for="signup-password">Password</label>
+          <input type="password" id="signup-password" placeholder="Create a password" required />
+        </div>
+        <div>
+          <label for="signup-confirm">Confirm Password</label>
+          <input type="password" id="signup-confirm" placeholder="Confirm your password" required />
+        </div>
+        <button type="submit">Sign Up</button>
+        <div class="social-login">
+          <p>Or sign up with:</p>
+          <button type="button" class="facebook">Facebook</button>
+          <button type="button" class="google">Google</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <script>
+    // Theme Toggle
+    const themeToggle = document.getElementById('themeToggle');
+    themeToggle.addEventListener('click', () => {
+      document.body.setAttribute('data-theme',
+        document.body.getAttribute('data-theme') === 'dark' ? 'light' : 'dark'
+      );
+      themeToggle.innerHTML = document.body.getAttribute('data-theme') === 'dark' 
+        ? '<i class="fas fa-sun"></i>' 
+        : '<i class="fas fa-moon"></i>';
+      localStorage.setItem('theme', document.body.getAttribute('data-theme'));
+    });
+
+    // Load saved theme
+    const savedTheme = localStorage.getItem('theme') || 'light';
+    document.body.setAttribute('data-theme', savedTheme);
+    themeToggle.innerHTML = savedTheme === 'dark' 
+      ? '<i class="fas fa-sun"></i>' 
+      : '<i class="fas fa-moon"></i>';
+
+    // Form Toggle
+    const loginTab = document.getElementById('loginTab');
+    const signupTab = document.getElementById('signupTab');
+    const loginForm = document.getElementById('loginForm');
+    const signupForm = document.getElementById('signupForm');
+
+    loginTab.addEventListener('click', () => {
+      loginTab.classList.add('active');
+      signupTab.classList.remove('active');
+      loginForm.classList.add('active');
+      signupForm.classList.remove('active');
+    });
+
+    signupTab.addEventListener('click', () => {
+      signupTab.classList.add('active');
+      loginTab.classList.remove('active');
+      signupForm.classList.add('active');
+      loginForm.classList.remove('active');
+    });
+  </script>
+</body>
+</html>
